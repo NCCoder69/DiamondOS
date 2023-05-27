@@ -72,5 +72,70 @@ function updateVolumeIcon(volumeLevel) {
   } else {
     volumeIcon.style.backgroundImage = "url('volume-high.png')";
   }
+};
+
+function changeBodyBackgroundColor(color) {
+  document.body.style.backgroundColor = color;
+  document.body.style.backgroundImage = "none";
 }
 
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+
+  // Check if the selected file is an image
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      const imageDataURL = e.target.result;
+      adjustBackgroundImage(imageDataURL);
+    }
+
+    reader.readAsDataURL(file);
+  } else {
+    // Display an error message or perform appropriate actions
+    alert('Please select a valid image file.');
+  }
+}
+function changeBodyBackgroundImage(url) {
+  adjustBackgroundImage(url);
+  document.body.style.backgroundColor = "transparent";
+}
+
+function adjustBackgroundImage(imageURL) {
+  const img = new Image();
+  img.src = imageURL;
+
+  img.onload = function() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const imageAspectRatio = img.width / img.height;
+    const windowAspectRatio = windowWidth / windowHeight;
+
+    let newWidth, newHeight;
+    if (windowAspectRatio > imageAspectRatio) {
+      newHeight = windowHeight;
+      newWidth = windowHeight * imageAspectRatio;
+    } else {
+      newWidth = windowWidth;
+      newHeight = windowWidth / imageAspectRatio;
+    }
+
+    document.body.style.backgroundImage = `url('${imageURL}')`;
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center";
+    document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundAttachment = "fixed";
+    document.body.style.backgroundColor = "transparent";
+  }
+
+  img.onerror = function() {
+    document.body.style.backgroundImage = "none";
+    document.body.style.backgroundColor = imageURL;
+  }
+}
+
+function resetBackground() {
+  document.body.style.backgroundColor = "lightcyan";
+  document.body.style.backgroundImage = "none";
+}

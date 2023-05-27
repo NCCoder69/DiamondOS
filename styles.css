@@ -243,3 +243,27 @@ body{
   z-index: 9999;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+.window-content{
+  padding:15px;
+  margin:1vw;
+  font-family: 'Raleway', sans-serif;
+  border-style: solid;
+  border-radius: 15px;
+  z-index: -1;
+  background-color: lightgray;
+}
+
+.form-group input{
+  border-style:solid;
+  border-color:black;
+  border-radius:5px;
+  width:16vmax;
+  background-color: #333;
+  color:white;
+
+}
+
+#image-url::placeholder {
+  color: white;
+}
