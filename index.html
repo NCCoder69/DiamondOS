@@ -28,7 +28,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       <img src="Apps/images/editor.jpg " alt="App Icon">
       <p>Code <br> Editor</p>
     </div>
+    <!-- Minecraft -->
+    <div class="app-icon" onclick="toggleFakeWindow('window5')">
+      <img src="Apps/images/minecraft.png " alt="App Icon">
+      <p>Mineacaft 1.8</p>
+    </div>
   </div>
+  
   
   <!-- Google -->
   <div id="window1" class="fakeWindow">
@@ -61,6 +67,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       <button class="navbar-btn" onclick="toggleFullScreen('window4')"><i id="full" class="fas fa-expand"></i></button>
     </div>
     <iframe src="Apps/Editor/" width="100%" height="100%"></iframe>
+  </div>
+  <!--- Minecraft -->
+  <div id="window5" class="fakeWindow">
+    <div class="navbar">
+      <button class="navbar-btn" onclick="closeFakeWindow('window5')"><i id="close"class="fas fa-times" ></i></button>
+      <button class="navbar-btn" onclick="toggleFullScreen('window5')"><i id="full" class="fas fa-expand"></i></button>
+    </div>
+    <iframe src="Apps/MC/" width="100%" height="100%"></iframe>
   </div>
 
 
