@@ -16,7 +16,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     <!--- YT -->
     <div class="app-icon" onclick="toggleFakeWindow('window2')">
       <img src="Apps/images/youtube.png" alt="App Icon">
-      <p>Youtube <br> (Unblocked) </p>
+      <p>Youtube <br> (Unblocker) </p>
     </div>
     <!-- Weather -->
     <div class="app-icon" onclick="toggleFakeWindow('window3')">
@@ -59,7 +59,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       <button class="navbar-btn" onclick="closeFakeWindow('window2')"><i id="close"class="fas fa-times" ></i></button>
       <button class="navbar-btn" onclick="toggleFullScreen('window2')"><i id="full" class="fas fa-expand"></i></button>
     </div>
-    <iframe src="main.html" width="100%" height="100%"></iframe>
+    <iframe src="Apps/YT/" width="100%" height="100%"></iframe>
   </div>
   <!-- Weather-->
   <div id="window3" class="fakeWindow">
@@ -103,8 +103,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       <label for="image-url">Image URL:</label>
       <input type="text" id="image-url" class="form-control" placeholder="Enter the URL of the background image" onchange="changeBodyBackgroundImage(this.value)"><br><br>
     </div>
-    <button class="btn btn-primary" onclick="resetBackground()">Reset</button><br><br>
-    <!-- Add more settings or content as needed -->
+    <button class="btn btn-primary" onclick="resetBackground()">Reset Background</button><br><br>
+    <br> <h3> Audio Settings</h3>
+
+    <label for="music-file">Upload Music File:</label>
+    <input type="file" id="music-file" accept=".mp3" onchange="handleMusicUpload(event)"> <br>
+    <label for="music-src">Music File Source:</label>
+    <input type="text" id="music-src" class="form-control" placeholder="Enter the URL or path of the music file" onchange="changeBackgroundMusic(this.value)">
+
   </div>
     <!-- Add more settings or content as needed -->
   </div>
@@ -134,7 +140,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     
     <div class="right-toolbar">
       <div id="volume-slider">
-        <input type="range" min="0" max="1" step="0.1" value="0.5" id="volume-control">
+        <input type="range" min="0" max="1" step="0.1" value="0.5" id="volume-control" >
       </div> 
       <div class="icon-container">
         <i class=""></i>
@@ -184,10 +190,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     </div>
   </div>
 
-       <audio id="background-music" loop>
-        <source src="bgmusic.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-      </audio>
+  <audio id="background-music" loop>
+    <source src="bgmusic.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
     
       <div id="volume-knob"></div>
       <script>
@@ -195,19 +201,98 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         const volumeSlider = document.getElementById('volume-slider');
         const volumeKnob = document.getElementById('volume-knob');
         const volumeControl = document.getElementById('volume-control');
+        let defaultMusicPlaying = true; // Track if default music is playing
+      
         volumeKnob.addEventListener('click', () => {
           volumeSlider.style.display = (volumeSlider.style.display === 'none') ? 'block' : 'none';
         });
-  
+      
         volumeControl.addEventListener('input', () => {
-          backgroundMusic.volume = volumeControl.value;
+          setMusicVolume(volumeControl.value);
         });
-  
+      
         // Start the background music when the page loads
         backgroundMusic.play();
-        backgroundMusic.volume = 0.025;
-  
-        
+        backgroundMusic.volume = 0.005;
+      
+        const musicFileInput = document.getElementById('music-file');
+        const musicSrcInput = document.getElementById('music-src');
+        let audioContext;
+        let musicSource;
+      
+        function handleMusicUpload(event) {
+          const file = event.target.files[0];
+          const reader = new FileReader();
+      
+          reader.onload = function(e) {
+            const musicDataURL = e.target.result;
+            loadBackgroundMusic(musicDataURL);
+          };
+      
+          reader.readAsDataURL(file);
+        }
+      
+        function changeBackgroundMusic(source) {
+          if (source.trim() !== '') {
+            loadBackgroundMusic(source);
+          } else {
+            loadBackgroundMusic('');
+          }
+        }
+      
+        function loadBackgroundMusic(source) {
+          if (musicSource) {
+            musicSource.stop();
+            musicSource.disconnect();
+          }
+      
+          if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          }
+      
+          fetch(source)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+            .then(audioBuffer => {
+              musicSource = audioContext.createBufferSource();
+              musicSource.buffer = audioBuffer;
+              musicSource.loop = true;
+              musicSource.connect(audioContext.destination);
+              if (defaultMusicPlaying) {
+                backgroundMusic.pause(); // Pause the default music
+                defaultMusicPlaying = false;
+              }
+              musicSource.start(0);
+              setMusicVolume(volumeControl.value);
+            })
+            .catch(error => {
+              console.error('Failed to load background music:', error);
+            });
+        }
+      
+        function setMusicVolume(volume) {
+          if (backgroundMusic) {
+            backgroundMusic.volume = volume;
+          }
+          if (musicSource) {
+            musicSource.volume = volume;
+          }
+        }
+      
+        // Set the default music file if no custom file or source is provided
+        changeBackgroundMusic('');
+      
+        // Handle page unload to stop the music and release resources
+        window.addEventListener('beforeunload', () => {
+          if (musicSource) {
+            musicSource.stop();
+            musicSource.disconnect();
+          }
+      
+          if (audioContext) {
+            audioContext.close();
+          }
+        });
       </script>
 </body>
 </html>
