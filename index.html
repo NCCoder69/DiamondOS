@@ -33,6 +33,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       <img src="Apps/images/minecraft.png " alt="App Icon">
       <p>Minecraft 1.8</p>
     </div>
+
+    <!--- Window 6 Was For The Settings -->
+
+
+    <!-- LOC -->
+    <div class="app-icon" onclick="toggleFakeWindow('window7');locwarn() ">
+      <img src="Apps/images/loc.png" alt="App Icon" >
+      <p>LOC WIP <br> By TIW</p>
+    </div>
   </div>
   
   
@@ -98,8 +107,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     <!-- Add more settings or content as needed -->
   </div>
     <!-- Add more settings or content as needed -->
-  </div>  
+  </div>
 
+ <!--- LOC -->
+ <div id="window7" class="fakeWindow">
+  <div class="navbar">
+    <button class="navbar-btn" onclick="closeFakeWindow('window7')"><i id="close"class="fas fa-times" ></i></button>
+    <button class="navbar-btn" onclick="toggleFullScreen('window7')"><i id="full" class="fas fa-expand"></i></button>
+  </div>
+  <iframe src="Apps/loc/" width="100%" height="100%"></iframe>
+</div>
 </div>
 
 

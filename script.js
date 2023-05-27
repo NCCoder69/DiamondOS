@@ -139,3 +139,8 @@ function resetBackground() {
   document.body.style.backgroundColor = "lightcyan";
   document.body.style.backgroundImage = "none";
 }
+
+function locwarn(){
+  alert("This site isn't using the offical site for this game, but the source code to prevent this from being blocked.\n Diamond is a branch of TIW. \n You can go their by going to https://startiw.org/beta")
+
+}
