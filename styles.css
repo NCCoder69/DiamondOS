@@ -79,20 +79,38 @@ body{
 
 .desktop-layout {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 5.2vw));
+  grid-template-columns: repeat(2, minmax(0, 6.5vw));
   text-align: center;
-  gap: 0px;
+  gap: 10px;
+}
+
+.app-icon{
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 0px;
+  padding:5px;
+}
+
+.app-icon:hover {
+  background-color: lightskyblue;
+  opacity: 0.75;
+  transition: background-color 0.5s, opacity 0.5s;
 }
 
 .app-icon img{
   cursor: pointer;
+  margin-top: 5%;
   width:60px;
+  border-radius:15px;
   height:60px;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 .app-icon p {
   text-align: center;
-  margin-top: -4px;
+  margin-top: 4px;
   font-size: 14px;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 .windows-toolbar {
@@ -128,6 +146,7 @@ body{
   font-size: 14px;
   font-weight: bold;
   margin-right: 10px;
+  margin-left: 10px;
 }
 
 .search-bar {
@@ -138,16 +157,22 @@ body{
   background-color: transparent;
   border: 2px solid black;
   color: black;
-  border-radius: 15px;
+  border-radius: 7.5px;
   margin-top: 2px;
   font-size: 15px;
   padding:5px;
+  width:24vmax;
   margin-right: 5px;
+}
+
+.search-bar::placeholder{
+  text-align: center;
 }
 
 .search-bar i {
   position: absolute;
   right: 0;
+  text-align: center;
   top: 6px;
   color: black;
   font-weight: bold;
